@@ -1,35 +1,51 @@
-/*
-Create X amount of divs using a loop, based on an inputted number
-Add those Div's to the existing Div in the html. This can be done in above loop.
-Add an element to each div. This can probably also be in the above loop.
 
-How do you dynamically change the grid columns and rows based on the user input of the size?
+//How do you dynamically change the grid columns and rows based on the user input of the size?
 
-Set up a “hover” effect so that the grid divs change color when your mouse passes over them, leaving a (pixelated) trail through your grid like a pen would.
-Hint: “hovering” is what happens when your mouse enters a div and ends when your mouse leaves it.. you can set up event listeners for either of those events as a starting point.
-*/
+//Add a button which will clear the current grid and send the user a popup asking 
+//for how many squares per side to make the new grid. Once entered the new grid should be generated in the same 
+//total space as before (e.g. 960px wide) and now you’ve got a new sketch pad.
 
-const padSize = 16;
-const container = document.querySelector('#sketchFrame');
+function sketchPad (padSize) {
 
-for (let i=1; i <=padSize; i++) {
-    let content = document.createElement('div');
-    content.classList.add('squares');
-    content.setAttribute('id','square-' + i);
-    container.appendChild(content);  
-}
+    const container = document.querySelector('#sketchFrame');
 
-function randomiseColour () {
-    let colours = ['red', 'blue', 'green', 'yellow', 'purple', 'pink', 'orange'];
-    return colours[(Math.random()*colours.length)|0];
-}
+    for (let i=1; i <=padSize; i++) {
+        let content = document.createElement('div');
+        content.classList.add('squares');
+        content.setAttribute('id','square-' + i);
+        container.appendChild(content);  
+    }
 
-const squares = Array.from(document.querySelectorAll('.squares'));
-squares.forEach((square) => {
+    const squares = Array.from(document.querySelectorAll('.squares'));
+    squares.forEach((square) => {
             square.addEventListener('mouseenter', (e) => {
                 document.getElementById(square.id).style.backgroundColor = randomiseColour();
             })
         }
     
     )
+
+}
+
+function randomiseColour () {
+    let colours = ['red', 'blue', 'green', 'yellow', 'purple', 'pink', 'orange', 'brown', 'gold', 'grey', 'black'];
+    return colours[(Math.random()*colours.length)|0];
+}
+
+function removeOldPad() {
+    const existingPad = document.querySelector('#sketchFrame');
+    while (existingPad.firstChild) {
+        existingPad.removeChild(existingPad.firstChild);
+    }
+}
+
+sketchPad(48);
+
+const clearButton = document.querySelector('#clearButton');
+clearButton.addEventListener('click', (e) => {
+    removeOldPad()
+    const userPadSize = prompt('Enter a Drawing Pad Size', 24);
+    sketchPad(userPadSize);
+})
+
 
