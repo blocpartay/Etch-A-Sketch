@@ -9,13 +9,16 @@ function sketchPad (padSize) {
 
     const container = document.querySelector('#sketchFrame');
 
-    for (let i=1; i <=padSize; i++) {
+    for (let i=1; i <=(padSize*padSize); i++) {
         let content = document.createElement('div');
         content.classList.add('squares');
         content.setAttribute('id','square-' + i);
         container.appendChild(content);  
     }
 
+    container.style.gridTemplateColumns = "1fr ".repeat(padSize);
+    container.style.gridTemplateRows = "1fr ".repeat(padSize);
+    
     const squares = Array.from(document.querySelectorAll('.squares'));
     squares.forEach((square) => {
             square.addEventListener('mouseenter', (e) => {
@@ -39,12 +42,12 @@ function removeOldPad() {
     }
 }
 
-sketchPad(48);
+sketchPad(8);
 
 const clearButton = document.querySelector('#clearButton');
 clearButton.addEventListener('click', (e) => {
     removeOldPad()
-    const userPadSize = prompt('Enter a Drawing Pad Size', 24);
+    const userPadSize = prompt('Enter a Drawing Pad Size', 8);
     sketchPad(userPadSize);
 })
 
